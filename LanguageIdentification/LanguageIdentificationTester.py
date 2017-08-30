@@ -34,9 +34,10 @@ def GetBestMatch(occurrences, frequencies) -> Languages:
     heuristicValues = list()
 
     for frequencyForLanguage in frequencies:
+        highest = frequencyForLanguage[1].GetCharsWithHighestFrequency(10)
         freqDiffSum = 0
         for occurrence in occurrences.occurrences:
-            if occurrence in frequencyForLanguage[1].occurrences:
+            if occurrence in highest:
                 # Only check chars for which a frequency is known
                 charOccurrence = frequencyForLanguage[1].occurrences[frequencyForLanguage[1].occurrences.index(occurrence)]
                 freqDiffSquared = pow(abs(charOccurrence.frequency - occurrence.frequency), 2)

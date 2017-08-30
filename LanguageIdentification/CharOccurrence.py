@@ -14,6 +14,9 @@ class CharCount:
     def __gt__(self, other):
         return self.char > other.char
 
+    def GetFrequency(self):
+        return self.frequency
+
 class CharCounts:
     """container for several CharCounts"""
     
@@ -47,3 +50,8 @@ class CharCounts:
         for charOccurrence in self.occurrences:
             totalCount += charOccurrence.count
         return totalCount
+
+    def GetCharsWithHighestFrequency(self, charCount):
+        localList = list(self.occurrences)
+        localList.sort(key=CharCount.GetFrequency, reverse=True)
+        return localList[0:charCount-1]

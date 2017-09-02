@@ -1,4 +1,4 @@
-from CharOccurrence import CharCounts, CharCount
+from LetterFrequency import LetterFrequencies, LetterFrequency
 from sys import *
 from TextProcessingHeuristic import *
 from enum import Enum
@@ -21,34 +21,27 @@ class FrequenciesLoader(object):
 
     @staticmethod
     def Load():
-        frequencies = list()
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Dutch))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.English))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Esperanto))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.French))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.German))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Italian))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Polish))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Portuguese))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Spanish))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Swedish))
-        frequencies.append(FrequenciesLoader.CreateFrequencyTuple(Languages.Turkish))
-        return frequencies
-
+        """Creates a list of letter frequencies per language"""
+        frequenciesPerLanguage = list()
+        for language in Languages:
+            frequenciesPerLanguage.append([language, FrequenciesLoader.LoadFrequency(language)])
+        return frequenciesPerLanguage
+    
     @staticmethod
-    def CreateFrequencyTuple(language):
-        return [language, FrequenciesLoader.LoadFrequency(language)]
-
-    @staticmethod
-    def LoadFrequency(language):
+    def LoadFrequency(language) -> LetterFrequencies:
+        """Loads letter frequency for a language."""
+        # Open the file with frequency values for language and read it.
+        # The file contains one line per character, in the format:
+        # a 3%
+        # b 10%
+        # ...
         file = open("resources\\Frequencies\\" + language.name + ".txt", "r", encoding="utf8")
         fileContent = file.readlines()
 
-        occurrences = CharCounts()
+        frequencies = LetterFrequencies()
         for line in fileContent:
             columns = line.split()
-            occurrence = CharCount(columns[0])
-            occurrence.frequency = float(columns[1].strip('%')) / 100
-            occurrences.AddOccurrenceFromStatistic(occurrence)
+            # Initialize a LetterFrequency with the character and its frequency...
+            frequencies.AddFromStatistic(LetterFrequency(columns[0], float(columns[1].strip('%')) / 100))
     
-        return occurrences
+        return frequencies

@@ -22,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CharOccurrence.py">
+    <Compile Include="LetterFrequency.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FrequenciesLoader.py">

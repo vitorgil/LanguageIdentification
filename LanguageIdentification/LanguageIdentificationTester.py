@@ -17,12 +17,12 @@ def ProcessText(fileName, processingHeuristic) -> LetterFrequencies:
     fileContent = processingHeuristic.ProcessText(fileContent)
     
     # create LetterFrequencies object
-    LetterFrequencys = LetterFrequencies(fileContent)
+    letterFrequencies = LetterFrequencies(fileContent)
 
     # Sort the list by letter and calculate frequencies
-    LetterFrequencys.Sort()
-    LetterFrequencys.CalculateFrequencies()
-    return LetterFrequencys
+    letterFrequencies.Sort()
+    
+    return letterFrequencies
 
 def GetBestMatch(textFrequencies, frequencies) -> Languages:
     """Takes letter frequencies in a text and a "list of lists": the frequencies per language, per character"""
@@ -34,10 +34,10 @@ def GetBestMatch(textFrequencies, frequencies) -> Languages:
     for frequencyForLanguage in frequencies:
         highest = frequencyForLanguage[1].GetCharsWithHighestFrequency(10)
         freqDiffSum = 0
-        for frequency in textFrequencies.frequencies:
+        for frequency in textFrequencies.frequenciesPerLanguage:
             if frequency in highest:
                 # Only check chars for which a frequency is known
-                letterFrequency = frequencyForLanguage[1].frequencies[frequencyForLanguage[1].frequencies.index(frequency)]
+                letterFrequency = frequencyForLanguage[1].frequenciesPerLanguage[frequencyForLanguage[1].frequenciesPerLanguage.index(frequency)]
                 freqDiffSquared = pow(abs(letterFrequency.frequency - frequency.frequency), 2)
                 freqDiffSum += freqDiffSquared
 
@@ -63,7 +63,7 @@ class LanguageIdentificationTester():
         
         # Test desired languages
         self.TestLanguage(Languages.English)
-        #self.TestLanguage(Languages.Portuguese)
+        self.TestLanguage(Languages.Portuguese)
         self.TestLanguage(Languages.Italian)
         self.TestLanguage(Languages.Dutch)
         self.TestLanguage(Languages.Spanish)
